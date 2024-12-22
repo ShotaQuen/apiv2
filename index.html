@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navbar with Smooth Transition</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
+    rel="stylesheet"
+  />
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+    defer
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"
+    defer
+  ></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link
+      href="https://fonts.googleapis.com/css2?family=Recursive:wght@500&display=swap"
+      rel="stylesheet"
+    />
+  <style>
+  body {
+    font-family: "Recursive", sans-serif;
+  }
+  
+    /* Default state: navbar hidden */
+    #navbar {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* Visible state: navbar slides in smoothly */
+    #navbar.active {
+      transform: translateX(0);
+    }
+
+    /* Blur background when navbar is active */
+    .blur {
+      filter: blur(4px);
+      pointer-events: none;
+    }
+    
+    section {
+      display: none;
+    }
+
+    /* Menampilkan konten yang aktif */
+    .active {
+      display: block;
+    }
+    
+    pre::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    pre::-webkit-scrollbar-thumb {
+      background-color: #4a5568; /* Dark Gray */
+      border-radius: 4px;
+    }
+    pre::-webkit-scrollbar-thumb:hover {
+      background-color: #2d3748; /* Darker Gray */
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+
+  <!-- Header with Toggle Button -->
+  <header class="w-full bg-gray-800 shadow-lg fixed top-0 left-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
+      <!-- Logo -->
+      <div class="text-xl font-bold"><i class="fa-solid fa-fish"></i></div>
+
+      <!-- Hamburger Button -->
+      <button id="menuToggle" class="block text-slate-400 text-xl hover:text-white">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar Navbar -->
+  <div id="navbar" class="fixed inset-y-0 left-0 bg-gray-800 text-gray-100 w-64 z-50">
+    <nav class="px-4 py-4 space-y-4">
+      <div class="flex items-center justify-between">
+        <a href="javascript:void(0);" onclick="showSection('home')" class="block text-lg font-medium text-slate-400 hover:text-white"><i class="fa-solid fa-home mr-4"></i>
+          Home
+        </a>
+        <button id="closeMenu" class="text-gray-400 hover:text-white">
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <a href="javascript:void(0);" onclick="showSection('api')" class="block text-lg font-medium text-slate-400 hover:text-white"><i class="fa-solid fa-code mr-6"></i>Api</a>
+      <a href="javascript:void(0);" onclick="showSection('use')" class="block text-lg font-medium text-slate-400 hover:text-white"><i class="fa-solid fa-book mr-6"></i>Documents</a>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-6">
+    <section id="home" class="min-h-screen active">
+      <div class="mt-14">
+        <div class="bg-gray-800 p-3 sm:p-3 rounded-lg shadow-md transition-colors flex items-center p">
+      <div>
+       <h2 class="text-lg sm:text-xl font-semibold text-white transition-colors">
+        Total Feature
+       </h2>
+       <p class="mt-2 text-white transition-colors" id="ture">
+        Loading...
+       </p>
+      </div>
+     </div>
+     
+     <div class="bg-gray-800 mt-2 p-3 sm:p-3 rounded-lg shadow-md transition-colors flex items-center p">
+      <div>
+       <h2 class="text-lg sm:text-xl font-semibold text-white transition-colors">
+        Total Category
+       </h2>
+       <p class="mt-2 text-white transition-colors" id="cata">
+        Loading...
+       </p>
+      </div>
+     </div>
+    </div>
+    </section>
+
+    <section id="api" class="min-h-screen">
+      <div class="mt-14">
+    
+    <!-- Grid Folder -->
+    <div id="folders" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mb-8">
+      <!-- Folder Placeholder -->
+    </div>
+
+    <!-- Container untuk API Kategori -->
+    <div id="api-container" class="w-full"></div>
+  </div>
+    </section>
+    
+    <section id="use" class="min-h-screen">
+      <div class="mt-14">
+    <div class="rounded-lg overflow-hidden shadow-lg border border-gray-700">
+  <pre class="line-numbers p-4 bg-gray-800 text-gray-200 rounded-lg">
+    <code class="language-javascript">//kalo
+    {
+    status: true
+    data: {
+    link: "LINK"
+    }
+    }
+
+    //nanti
+
+    const ikann = await fetchJson('https://apiikann.vercel.app')
+    m.reply(ikann.data.link)
+    </code>
+  </pre>
+</div>
+
+    </div>
+    </section>
+  </main>
+
+
+  <!-- JavaScript -->
+  <script>
+    // -- Navbar -- //
+    const menuToggle = document.getElementById("menuToggle");
+    const closeMenu = document.getElementById("closeMenu");
+    const navbar = document.getElementById("navbar");
+    const content = document.getElementById("content");
+
+    // Show navbar with smooth effect
+    menuToggle.addEventListener("click", () => {
+      navbar.classList.add("active");
+      content.classList.add("blur");
+    });
+
+    // Hide navbar with smooth effect
+    closeMenu.addEventListener("click", () => {
+      navbar.classList.remove("active");
+      content.classList.remove("blur");
+    });
+    
+    // -- Section --//
+    // Fungsi untuk menampilkan halaman berdasarkan klik navbar
+    function showSection(pageId) {
+      // Sembunyikan semua section
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        section.classList.remove('active');
+      });
+
+      // Menampilkan section yang dipilih
+      const selectedSection = document.getElementById(pageId);
+      if (selectedSection) {
+        selectedSection.classList.add('active');
+      }
+    }
+
+    // Fungsi untuk menampilkan halaman berdasarkan pilihan dropdown
+    function showSectionFromSelect() {
+      const select = document.getElementById('pageSelect');
+      const page = select.value;
+
+      // Sembunyikan semua section
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        section.classList.remove('active');
+      });
+
+      // Menampilkan section yang dipilih
+      if (page) {
+        const selectedSection = document.getElementById(page);
+        if (selectedSection) {
+          selectedSection.classList.add('active');
+        }
+      }
+    }
+    
+    const folders = {
+      "AI": {
+        icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
+        apis: [
+          { title: "openai", service: "openai", q: "q=hai" },
+          { title: "luminai", service: "luminai", q: "q=hai" },
+          { title: "llama", service: "llama", q: "q=hai" },
+          { title: "blackbox", service: "blackbox", q: "q=hai" },
+          { title: "simisimi", service: "simi", q: "q=hai" },
+        ]
+      },
+      "Search": {
+        icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
+        apis: [
+          { title: "google", service: "google", q: "q=ronaldo" },
+          { title: "gimage", service: "gimage", q: "q=ronaldo" },
+          { title: "playstore", service: "playstore", q: "q=minecraft" },
+          { title: "appstore", service: "appstore", q: "q=minecraft" },
+          { title: "yt search", service: "yts", q: "q=christy" },
+        ]
+      },
+      "Downloader": {
+        icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
+        apis: [
+          { title: "youtube", service: "ytdl", q: "url=" },
+          { title: "facebook", service: "fbdl", q: "url=" },
+          { title: "instagram", service: "igdl", q: "url=" },
+          { title: "tiktok", service: "ttdl", q: "url=" },
+          { title: "mediafire", service: "mfdl", q: "url=" },
+        ]
+      }
+    };
+
+    // Fungsi untuk menampilkan folder
+    function renderFolders() {
+      const foldersContainer = document.getElementById("folders");
+      Object.keys(folders).forEach(folder => {
+        const folderData = folders[folder];
+        const folderElement = document.createElement("div");
+        folderElement.classList.add("cursor-pointer", "bg-gray-800", "hover:bg-gray-700", "rounded-lg", "p-4", "flex", "items-center", "transition", "transform", "scale-95", "hover:scale-100", "justify-start", "space-x-4", "max-w-xs");
+        folderElement.innerHTML = `
+          <div class="flex items-center space-x-4">
+            ${folderData.icon}
+            <span class="text-lg font-medium text-gray-200">${folder}</span>
+          </div>
+        `;
+        folderElement.onclick = () => showApis(folder);
+        foldersContainer.appendChild(folderElement);
+      });
+    }
+
+    // Fungsi untuk menampilkan API berdasarkan folder yang dipilih
+    function showApis(folder) {
+      const container = document.getElementById("api-container");
+      container.innerHTML = "";  // Bersihkan kontainer sebelumnya
+      const folderData = folders[folder];
+
+      const section = document.createElement("div");
+      section.classList.add(
+        "divide-y",
+        "divide-gray-700",
+        "p-4",
+        "bg-gray-800",
+        "rounded-lg",
+        "border",
+        "border-gray-700",
+        "shadow-sm"
+      );
+
+      const categoryTitle = document.createElement("div");
+      categoryTitle.classList.add(
+        "flex", 
+        "justify-between", 
+        "items-center", 
+        "text-xl", 
+        "font-bold", 
+        "bg-gray-700", 
+        "text-white", 
+        "p-3", 
+        "rounded-lg", 
+        "shadow-md", 
+        "tracking-wider", 
+        "mb-4"
+      );
+      const categoryName = document.createElement("span");
+      categoryName.innerText = folder;
+      const totalEndpoints = document.createElement("span");
+      totalEndpoints.classList.add("text-sm", "font-medium");
+      totalEndpoints.innerText = `Total: ${folderData.apis.length}`;
+      categoryTitle.appendChild(categoryName);
+      categoryTitle.appendChild(totalEndpoints);
+      section.appendChild(categoryTitle);
+
+      folderData.apis.forEach((api) => {
+        const card = document.createElement("div");
+        card.classList.add(
+          "flex",
+          "items-center",
+          "justify-between",
+          "p-3",
+          "bg-gray-800",
+          "border",
+          "border-gray-700",
+          "rounded-lg",
+          "max-w-xs"
+        );
+        const leftSection = document.createElement("div");
+        leftSection.classList.add("flex", "items-center", "space-x-3");
+        const getBadge = document.createElement("span");
+        getBadge.classList.add(
+          "bg-gray-600",
+          "text-white",
+          "px-3",
+          "py-1",
+          "rounded-full",
+          "text-xs",
+          "font-bold",
+          "shadow"
+        );
+        getBadge.innerText = "GET";
+        const apiTitle = document.createElement("span");
+        apiTitle.classList.add("text-gray-200", "font-semibold", "text-lg");
+        apiTitle.innerText = api.title;
+        leftSection.appendChild(getBadge);
+        leftSection.appendChild(apiTitle);
+
+        const tryButton = document.createElement("a");
+        tryButton.classList.add(
+          "bg-gray-600",
+          "text-white",
+          "px-3",
+          "py-1",
+          "rounded-full",
+          "text-xs",
+          "font-bold",
+          "shadow",
+          "tracking-wide",
+          "text-sm"
+        );
+        tryButton.innerText = "TRY";
+        tryButton.href = `https://apiikann.vercel.app/api/${folder.toLowerCase()}/${api.service}?${api.q}`;
+        tryButton.target = "_blank";
+        card.appendChild(leftSection);
+        card.appendChild(tryButton);
+        section.appendChild(card);
+      });
+      container.appendChild(section);
+    }
+
+    // Memanggil fungsi renderFolders saat halaman dimuat
+    renderFolders();
+  </script>
+</body>
+</html>
