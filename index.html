@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navbar with Smooth Transition</title>
+  <title>Ikann mode Entalah</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link
     href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
@@ -99,6 +99,7 @@
         </button>
       </div>
       <a href="javascript:void(0);" onclick="showSection('api')" class="block text-lg font-medium text-slate-400 hover:text-white"><i class="fa-solid fa-code mr-6"></i>Api</a>
+      <a href="javascript:void(0);" onclick="showSection('share')" class="block text-lg font-medium text-slate-400 hover:text-white"><i class="fa-solid fa-plane mr-6"></i>Share</a>
       <a href="javascript:void(0);" onclick="showSection('use')" class="block text-lg font-medium text-slate-400 hover:text-white"><i class="fa-solid fa-book mr-6"></i>Documents</a>
     </nav>
   </div>
@@ -144,6 +145,12 @@
   </div>
     </section>
     
+    <section id="share" class="min-h-screen">
+      <div class="mt-14">
+    <div id="app"></div>
+    </div>
+    </section>
+    
     <section id="use" class="min-h-screen">
       <div class="mt-14">
     <div class="rounded-lg overflow-hidden shadow-lg border border-gray-700">
@@ -171,6 +178,134 @@
 
   <!-- JavaScript -->
   <script>
+    const cardsData = [
+        {
+          title: "QUOTLY STICKER",
+          category: "maker",
+          description: "Buatan Sanjaya langsung dari sumbernya",
+          website: "https://vapis.my.id", // Website link (can be empty or undefined)
+          code: `const axios = require('axios')
+
+async function quotly(teks, nama = 'Sanjaya', avatar, warna = 'white') {
+  let bgc
+  switch (warna) {
+    case 'pink': bgc = '#f68ac9'; break
+    case 'blue': bgc = '#6cace4'; break
+    case 'red': bgc = '#f44336'; break
+    case 'green': bgc = '#4caf50'; break
+    case 'yellow': bgc = '#ffeb3b'; break
+    case 'purple': bgc = '#9c27b0'; break
+    case 'darkblue': bgc = '#0d47a1'; break
+    case 'lightblue': bgc = '#03a9f4'; break
+    case 'ash': bgc = '#9e9e9e'; break
+    case 'orange': bgc = '#ff9800'; break
+    case 'black': bgc = '#000000'; break
+    case 'white': bgc = '#ffffff'; break
+    case 'teal': bgc = '#008080'; break
+    case 'lightpink': bgc = '#FFC0CB'; break
+    case 'chocolate': bgc = '#A52A2A'; break
+    case 'salmon': bgc = '#FFA07A'; break
+    case 'magenta': bgc = '#FF00FF'; break
+    case 'tan': bgc = '#D2B48C'; break
+    case 'wheat': bgc = '#F5DEB3'; break
+    case 'deeppink': bgc = '#FF1493'; break
+    case 'fire': bgc = '#B22222'; break
+    case 'skyblue': bgc = '#00BFFF'; break
+    case 'brightskyblue': bgc = '#1E90FF'; break
+    case 'hotpink': bgc = '#FF69B4'; break
+    case 'lightskyblue': bgc = '#87CEEB'; break
+    case 'seagreen': bgc = '#20B2AA'; break
+    case 'darkred': bgc = '#8B0000'; break
+    case 'orangered': bgc = '#FF4500'; break
+    case 'cyan': bgc = '#48D1CC'; break
+    case 'violet': bgc = '#BA55D3'; break
+    case 'mossgreen': bgc = '#00FF7F'; break
+    case 'darkgreen': bgc = '#008000'; break
+    case 'navyblue': bgc = '#191970'; break
+    case 'darkorange': bgc = '#FF8C00'; break
+    case 'darkpurple': bgc = '#9400D3'; break
+    case 'fuchsia': bgc = '#FF00FF'; break
+    case 'darkmagenta': bgc = '#8B008B'; break
+    case 'darkgray': bgc = '#2F4F4F'; break
+    case 'peachpuff': bgc = '#FFDAB9'; break
+    case 'darkishgreen': bgc = '#BDB76B'; break
+    case 'darkishred': bgc = '#DC143C'; break
+    case 'goldenrod': bgc = '#DAA520'; break
+    case 'darkishgray': bgc = '#696969'; break
+    case 'darkishpurple': bgc = '#483D8B'; break
+    case 'gold': bgc = '#FFD700'; break
+    case 'silver': bgc = '#C0C0C0'; break
+    default: throw new Error('Ga ada tuh warna')
+  }
+  const json = {
+    type: 'quote',
+    format: 'png',
+    bgc,
+    width: 512,
+    height: 768,
+    scale: 2,
+    tekss: [{
+      entities: [],
+      avatar: true,
+      from: {
+        id: 1,
+        name: nama,
+        photo: { url: avatar }
+      },
+      text: teks,
+      replyMessage: {}
+    }]
+  }
+  try {
+    const response = await axios.post('https://bot.lyo.su/quote/generate', json, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+    const buffer = Buffer.from(response.data.result.image, 'base64')
+    return buffer
+  } catch (e) {
+    throw new Error(e)
+  }
+}
+
+// Contoh
+const p = await quotly('P', 'Sanjaya', 'https://pomf2.lain.la/f/c4njx2we.jpg', 'white')
+sock.sendMessage(from, {image: p })`,
+        },
+      ];
+      
+      const folders = {
+      "AI": {
+        icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
+        apis: [
+          { title: "openai", service: "openai", q: "q=hai" },
+          { title: "luminai", service: "luminai", q: "q=hai" },
+          { title: "llama", service: "llama", q: "q=hai" },
+          { title: "blackbox", service: "blackbox", q: "q=hai" },
+          { title: "simisimi", service: "simi", q: "q=hai" },
+        ]
+      },
+      "Search": {
+        icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
+        apis: [
+          { title: "google", service: "google", q: "q=ronaldo" },
+          { title: "gimage", service: "gimage", q: "q=ronaldo" },
+          { title: "playstore", service: "playstore", q: "q=minecraft" },
+          { title: "appstore", service: "appstore", q: "q=minecraft" },
+          { title: "yt search", service: "yts", q: "q=christy" },
+        ]
+      },
+      "Downloader": {
+        icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
+        apis: [
+          { title: "youtube", service: "ytdl", q: "url=" },
+          { title: "facebook", service: "fbdl", q: "url=" },
+          { title: "instagram", service: "igdl", q: "url=" },
+          { title: "tiktok", service: "ttdl", q: "url=" },
+          { title: "mediafire", service: "mfdl", q: "url=" },
+        ]
+      }
+    };
+    
     // -- Navbar -- //
     const menuToggle = document.getElementById("menuToggle");
     const closeMenu = document.getElementById("closeMenu");
@@ -224,39 +359,6 @@
         }
       }
     }
-    
-    const folders = {
-      "AI": {
-        icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
-        apis: [
-          { title: "openai", service: "openai", q: "q=hai" },
-          { title: "luminai", service: "luminai", q: "q=hai" },
-          { title: "llama", service: "llama", q: "q=hai" },
-          { title: "blackbox", service: "blackbox", q: "q=hai" },
-          { title: "simisimi", service: "simi", q: "q=hai" },
-        ]
-      },
-      "Search": {
-        icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
-        apis: [
-          { title: "google", service: "google", q: "q=ronaldo" },
-          { title: "gimage", service: "gimage", q: "q=ronaldo" },
-          { title: "playstore", service: "playstore", q: "q=minecraft" },
-          { title: "appstore", service: "appstore", q: "q=minecraft" },
-          { title: "yt search", service: "yts", q: "q=christy" },
-        ]
-      },
-      "Downloader": {
-        icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
-        apis: [
-          { title: "youtube", service: "ytdl", q: "url=" },
-          { title: "facebook", service: "fbdl", q: "url=" },
-          { title: "instagram", service: "igdl", q: "url=" },
-          { title: "tiktok", service: "ttdl", q: "url=" },
-          { title: "mediafire", service: "mfdl", q: "url=" },
-        ]
-      }
-    };
 
     // Fungsi untuk menampilkan folder
     function renderFolders() {
@@ -376,6 +478,123 @@
 
     // Memanggil fungsi renderFolders saat halaman dimuat
     renderFolders();
+  
+    document.addEventListener("DOMContentLoaded", function() {
+      // Data for cards with description, code examples, and optional website link
+
+      const app = document.getElementById("app");
+
+      // Create search and filter controls
+      app.innerHTML = `
+        <div class="w-full max-w-4xl px-4">
+          <input id="searchInput" type="text" placeholder="Search cards..." 
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white placeholder-gray-400 mb-4" />
+          <div class="flex flex-wrap gap-2 justify-center mb-6">
+            <button class="filter-btn px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" data-filter="all">All</button>
+            <button class="filter-btn px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600" data-filter="maker">Maker</button>
+          </div>
+          <div id="cardContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+        <div id="copyAlert" class="mt-16 hidden fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-2 rounded-lg shadow-lg">Code copied successfully!</div>
+      `;
+
+      // Render cards
+      const cardContainer = document.getElementById("cardContainer");
+      cardsData.forEach(card => {
+        const cardElement = document.createElement("div");
+        cardElement.classList.add("card", card.category, "bg-gray-800", "p-4", "rounded-lg", "shadow-md", "cursor-pointer", "transition-all");
+        
+        // Generate description and link if present
+        let descriptionHTML = `<p class="text-gray-300 mt-2">${card.description}</p>`;
+        if (card.website) {
+          descriptionHTML += `<p class="text-gray-400 mt-2">Website: <a href="${card.website}" target="_blank" class="text-blue-500 hover:underline">${card.website}</a></p>`;
+        }
+
+        cardElement.innerHTML = `
+          <h2 class="text-lg font-semibold">${card.title}</h2>
+          <p class="text-gray-400">Category: ${card.category}</p>
+          ${descriptionHTML}
+          <div class="dropdown hidden mt-4">
+            <p class="text-gray-300 mb-2">JavaScript Example:</p>
+            <div class="relative">
+              <pre class="line-numbers"><code class="language-javascript">${card.code}</code></pre>
+              <button class="absolute top-2 right-2 p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700" onclick="copyCode(event, this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M15 10a3 3 0 01-3 3H5a3 3 0 01-3-3V5a3 3 0 013-3h10a3 3 0 013 3v5z" /></svg>
+              </button>
+            </div>
+            <button class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" onclick="closeDropdown(event, this)">Close</button>
+          </div>
+        `;
+        cardElement.addEventListener("click", () => toggleDropdown(cardElement));
+        cardContainer.appendChild(cardElement);
+      });
+
+      // Search functionality
+      const searchInput = document.getElementById("searchInput");
+      searchInput.addEventListener("input", (e) => {
+        const searchText = e.target.value.toLowerCase();
+        const cards = document.querySelectorAll(".card");
+        cards.forEach(card => {
+          const cardText = card.textContent.toLowerCase();
+          card.style.display = cardText.includes(searchText) ? "" : "none";
+        });
+      });
+
+      // Filter functionality
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          const filter = button.getAttribute("data-filter");
+          filterButtons.forEach(btn => btn.classList.remove("bg-blue-600", "text-white"));
+          button.classList.add("bg-blue-600", "text-white");
+
+          const cards = document.querySelectorAll(".card");
+          cards.forEach(card => {
+            if (filter === "all" || card.classList.contains(filter)) {
+              card.style.display = "";
+            } else {
+              card.style.display = "none";
+            }
+          });
+        });
+      });
+    });
+
+    // Toggle dropdown visibility
+    function toggleDropdown(card) {
+      const dropdown = card.querySelector(".dropdown");
+      const isHidden = dropdown.classList.contains("hidden");
+      document.querySelectorAll(".dropdown").forEach(drop => drop.classList.add("hidden"));
+      if (isHidden) dropdown.classList.remove("hidden");
+    }
+
+    // Close dropdown
+    function closeDropdown(event, button) {
+      event.stopPropagation();
+      button.closest(".dropdown").classList.add("hidden");
+    }
+
+    // Copy code to clipboard and show alert
+    function copyCode(event, button) {
+      event.stopPropagation();
+      const codeElement = button.closest(".relative").querySelector("code");
+      const codeText = codeElement.textContent;
+
+      // Create a temporary textarea to copy the text
+      const textArea = document.createElement("textarea");
+      textArea.value = codeText;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+
+      // Show alert
+      const alert = document.getElementById("copyAlert");
+      alert.classList.remove("hidden");
+      setTimeout(() => {
+        alert.classList.add("hidden");
+      }, 2000);
+    }
   </script>
 </body>
 </html>
