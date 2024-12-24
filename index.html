@@ -293,11 +293,144 @@ sock.sendMessage(from, {image: p })`,
       "AI": {
         icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
         apis: [
-          { title: "openai", service: "openai", q: "q=hai" },
-          { title: "luminai", service: "luminai", q: "q=hai" },
-          { title: "llama", service: "llama", q: "q=hai" },
-          { title: "blackbox", service: "blackbox", q: "q=hai" },
-          { title: "simisimi", service: "simi", q: "q=hai" },
+          {
+        title: "openai",
+        service: "openai",
+        q: "q=hai",
+        description: "Get repons from openai"
+      },
+      {
+        title: "luminai",
+        service: "luminai",
+        q: "q=hai",
+        description: "Get repons from luminai"
+      },
+      {
+        title: "llamav1",
+        service: "llamav1",
+        q: "q=hai",
+        description: "Get repons from llamav1"
+      },
+      {
+        title: "llamav2",
+        service: "llamav2",
+        q: "q=hai",
+        description: "Get repons from llamav2"
+      },
+      {
+        title: "gemini",
+        service: "gemini",
+        q: "q=hai",
+        description: "Get repons from gemini"
+      },
+      {
+        title: "blackbox",
+        service: "blackbox",
+        q: "q=hai",
+        description: "Get repons from blackbox"
+      },
+      {
+        title: "simisimi",
+        service: "simi",
+        q: "q=hai",
+        description: "Get repons from simisimi"
+      },
+      {
+        title: "gpt4o",
+        service: "gpt4o",
+        q: "q=hai",
+        description: "Get repons from gpt4o"
+      },
+      {
+        title: "gpt4o-mini",
+        service: "gpt4omini",
+        q: "q=hai",
+        description: "Get repons from gpt4o mini"
+      },
+      {
+        title: "turbo-v1",
+        service: "turbov1",
+        q: "q=hai",
+        description: "Get repons from gpt-turbo v1"
+      },
+      {
+        title: "turbo-v2",
+        service: "turbov2",
+        q: "q=hai",
+        description: "Get repons from gpt-turbo v2"
+      },
+      {
+        title: "mistral-v1",
+        service: "mistralv1",
+        q: "q=hai",
+        description: "Get repons from mistralv1"
+      },
+      {
+        title: "mistral-v2",
+        service: "mistralv2",
+        q: "q=hai",
+        description: "Get repons from mistralv2"
+      },
+      {
+        title: "feloai",
+        service: "feloai",
+        q: "q=hai",
+        description: "Get repons from felo ai"
+      },
+      {
+        title: "moshiai",
+        service: "moshiai",
+        q: "q=hai",
+        description: "Get repons from moshi ai"
+      },
+      {
+        title: "meiliai",
+        service: "meiliai",
+        q: "q=hai",
+        description: "Get repons from meili ai"
+      },
+      {
+        title: "islamai",
+        service: "islamai",
+        q: "q=hai",
+        description: "Get repons from islam ai"
+      },
+      {
+        title: "veniceai",
+        service: "veniceai",
+        q: "q=hai",
+        description: "Get repons from venice ai"
+      },
+      {
+        title: "text2image v1",
+        service: "txt2imgv1",
+        q: "q=beautiful%20girl",
+        description: "Generate anime image"
+      },
+      {
+        title: "text2image v2",
+        service: "txt2imgv2",
+        q: "q=beautiful%20girl",
+        description: "Generate cute-anime image"
+      },
+      {
+        title: "flux imagev1",
+        service: "fluximgv1",
+        q: "q=beautiful%20girl",
+        description: "Generate image with fluxv1"
+      },
+      {
+        title: "flux imagev2",
+        service: "fluximgv2",
+        q: "q=beautiful%20girl",
+        description: "Generate image with fluxv2"
+      },
+      {
+        title: "sana-ai image",
+        service: "sanaai",
+        q: "q=beautiful%20girl",
+        description: "Generate image with sana ai"
+      },
         ]
       },
       "Search": {
@@ -483,8 +616,8 @@ sock.sendMessage(from, {image: p })`,
           "text-sm"
         );
         tryButton.innerText = "TRY";
-        tryButton.href = `https://apiikann.vercel.app/api/${api.service}?${api.q}`;
-        tryButton.target = "_blank";
+        tryButton.href = `/api/${api.service}?${api.q}`;
+      tryButton.target = "_blank";
         card.appendChild(leftSection);
         card.appendChild(tryButton);
         section.appendChild(card);
