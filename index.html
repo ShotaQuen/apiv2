@@ -194,7 +194,6 @@
 
   <!-- JavaScript -->
   <script>
-    const petik = "`"
     const cardsData = [
         {
           title: "QUOTLY STICKER",
@@ -604,7 +603,7 @@ break`,
           "text-sm"
         );
         tryButton.innerText = "TRY";
-        tryButton.href = `https://apiikann.vercel.app/api/${folder.toLowerCase()}/${api.service}?${api.q}`;
+        tryButton.href = `https://apiikann.vercel.app/api/${api.service}?${api.q}`;
         tryButton.target = "_blank";
         card.appendChild(leftSection);
         card.appendChild(tryButton);
