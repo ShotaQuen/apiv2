@@ -194,6 +194,7 @@
 
   <!-- JavaScript -->
   <script>
+    const petik = "`"
     const cardsData = [
         {
           title: "QUOTLY STICKER",
@@ -286,6 +287,126 @@ async function quotly(teks, nama = 'Sanjaya', avatar, warna = 'white') {
 // Contoh
 const p = await quotly('P', 'Sanjaya', 'https://pomf2.lain.la/f/c4njx2we.jpg', 'white')
 sock.sendMessage(from, {image: p })`,
+        },
+        {
+          title: "CREATE FILE",
+          category: "owner",
+          description: "By Hann",
+          website: "https://whatsapp.com/channel\n/0029Vaf07jKCBtxAsekFFk3i", // Website link (can be empty or undefined)
+          code: `case 'createfile':
+case 'cfile': {
+  const quo = args.length >= 1 ? args.join(" ") : m.quoted?.text || m.quoted?.caption || m.quoted?.description || null;
+  
+  if (!quo) return m.reply("Masukan teks yang ingin dimasukkan pada file nya");
+  
+  let type;
+  let mime;
+  let result;
+  
+  if (args[0] === "--js") {
+    type = ".js";
+    mime = "application/javascript";
+    result = "JavaScript";
+  } else if (args[0] === "--html") {
+    type = ".html";
+    mime = "text/html";
+    result = "HTML";
+  } else if (args[0] === "--ruby") {
+    type = ".rb";
+    mime = "application/x-ruby";
+    result = "Ruby";
+  } else if (args[0] === "--py") {
+    type = ".py";
+    mime = "text/x-python";
+    result = "Python";
+  } else if (args[0] === "--jv") {
+    type = ".java";
+    mime = "text/x-java-source";
+    result = "Java";
+  } else if (args[0] === "--json") {
+    type = ".json";
+    mime = "application/json";
+    result = "JSON";
+  } else if (args[0] === "--c") {
+    type = ".c";
+    mime = "text/x-c";
+    result = "C";
+  } else if (args[0] === "--cpp") {
+    type = ".cpp";
+    mime = "text/x-c++src";
+    result = "C++";
+  } else if (args[0] === "--ct") {
+    type = ".cs";
+    mime = "text/x-csharp";
+    result = "C#";
+  } else if (args[0] === "--php") {
+    type = ".php";
+    mime = "application/x-httpd-php";
+    result = "PHP";
+  } else if (args[0] === "--ts") {
+    type = ".ts";
+    mime = "application/x-typescript";
+    result = "TypeScript";
+  } else if (args[0] === "--go") {
+    type = ".go";
+    mime = "text/x-go";
+    result = "GoLang";
+  } else if (args[0] === "--lua") {
+    type = ".lua";
+    mime = "text/x-lua";
+    result = "Lua";
+  } else if (args[0] === "--css") {
+    type = ".css";
+    mime = "text/css";
+    result = "CSS";
+  } else if (args[0] === "--txt") {
+    type = ".txt";
+    mime = "text/plain";
+    result = "Text/Txt";
+  } else {
+    return reply(\`Perintah tidak dikenali. file type yang tersedia 
+    --js ( *JavaScript* ) 
+    --html ( *Html* ) 
+    --ruby ( *Ruby* ) 
+    --py ( *Python* ) 
+    --jv ( *Java* ) 
+    --json ( *Json* ) 
+    --c ( *C* ) 
+    --cpp ( *C++* ) 
+    --ct ( *C#* ) 
+    --php ( *PHP* ) 
+    --ts ( *TypeScript* ) 
+    --go ( *GoLang* ) 
+    --lua ( *Lua* ) 
+    --css ( *CSS* ) 
+    --txt ( *Text/Txt* ) \`);
+  }
+  
+  let tipe = \`file_\${Date.now()}\${result}\`;
+  
+  await fs.writeFile(tipe, quo, (err) => {
+    if (err) {
+      console.log(err);
+      return reply(\`Gagal membuat file: \${err.message}\`);
+    }
+    
+    let ngirim;
+    
+    if (args[1] === "--group") {
+      ngirim = Rifky.sendMessage(m.chat, { document: fs.readFileSync(tipe), fileName: tipe, mimetype: mime }, { quoted: m });
+    } else if (args[1] === "--private") {
+      ngirim = Rifky.sendMessage(m.sender, { document: fs.readFileSync(tipe), fileName: tipe, mimetype: mime }, { quoted: m });
+    } else {
+      return reply(\`Perintah tidak dikenali. mau kirim kemana? disini atau di grup? 
+      
+      --group ( *Di Grup* ) 
+      --private ( *Di Pribadi Chat* ) \`);
+    }
+    
+    return ngirim;
+  });
+}
+break`,
         },
       ];
       
@@ -507,12 +628,28 @@ sock.sendMessage(from, {image: p })`,
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white placeholder-gray-400 mb-4" />
           <div class="flex flex-wrap gap-2 justify-center mb-6">
             <button class="filter-btn px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" data-filter="all">All</button>
-            <button class="filter-btn px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600" data-filter="maker" id="makerCount">Maker</button>
+            <button class="filter-btn px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600" data-filter="maker">Maker</button>
+            <button class="filter-btn px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600" data-filter="owner">Owner</button>
           </div>
           <div id="cardContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
         <div id="copyAlert" class="mt-16 hidden fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-2 rounded-lg shadow-lg">Code copied successfully!</div>
       `;
+
+function encodeHTML(str) {
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;")
+      .replace(/`/g, "&#96;")
+      .replace(/{/g, "&#123;")
+      .replace(/}/g, "&#125;")
+      .replace(/\[/g, "&#91;")
+      .replace(/\]/g, "&#93;")
+      .replace(/\$/g, "&#36;");
+  }
 
       // Render cards
       const cardContainer = document.getElementById("cardContainer");
@@ -534,9 +671,7 @@ sock.sendMessage(from, {image: p })`,
             <p class="text-gray-300 mb-2">JavaScript Example:</p>
             <div class="relative">
               <pre class="line-numbers"><code class="language-javascript">${card.code}</code></pre>
-              <button class="absolute top-2 right-2 p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700" onclick="copyCode(event, this)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M15 10a3 3 0 01-3 3H5a3 3 0 01-3-3V5a3 3 0 013-3h10a3 3 0 013 3v5z" /></svg>
-              </button>
+              <button class="absolute top-2 right-2 p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700" onclick="copyCode(event, this)"><i class="fa-solid fa-copy"></i></button>
             </div>
             <button class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" onclick="closeDropdown(event, this)">Close</button>
           </div>
