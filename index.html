@@ -483,7 +483,7 @@ sock.sendMessage(from, {image: p })`,
           "text-sm"
         );
         tryButton.innerText = "TRY";
-        tryButton.href = `/api/${folder.toLowerCase()}/${api.service}?${api.q}`;
+        tryButton.href = `/api/${api.service}?${api.q}`;
         tryButton.target = "_blank";
         card.appendChild(leftSection);
         card.appendChild(tryButton);
