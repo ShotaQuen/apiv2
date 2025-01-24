@@ -449,6 +449,12 @@ break`,
         description: "Get repons from blackbox"
       },
       {
+        title: "claude",
+        service: "claude",
+        q: "q=hai",
+        description: "Get repons from claude"
+      },
+      {
         title: "simisimi",
         service: "simi",
         q: "q=hai",
@@ -533,33 +539,38 @@ break`,
         description: "Generate cute-anime image"
       },
       {
-        title: "flux imagev1",
-        service: "fluximgv1",
+        title: "text2image v3",
+        service: "txt2imgv3",
         q: "q=beautiful%20girl",
-        description: "Generate image with fluxv1"
+        description: "Generate image with imgsys"
       },
       {
-        title: "flux imagev2",
-        service: "fluximgv2",
-        q: "q=beautiful%20girl",
-        description: "Generate image with fluxv2"
+        title: "ai-baby",
+        service: "aibaby",
+        q: "ayah=https://pomf2.lain.la/f/496snr7.jpg&ibu=https://pomf2.lain.la/f/48li9yvf.jpg&gender=boy",
+        description: "Generate baby face image with ai"
       },
       {
-        title: "sana-ai image",
-        service: "sanaai",
+        title: "soft anime",
+        service: "softanime",
         q: "q=beautiful%20girl",
-        description: "Generate image with sana ai"
+        description: "Generate soft-anime image"
       },
-          
         ]
       },
       "Search": {
         icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
         apis: [{
-        title: "google",
-        service: "google",
+        title: "google v1",
+        service: "googlev1",
         q: "q=ronaldo",
-        description: "Search with google"
+        description: "Search with google v1"
+      },
+      {
+        title: "google v2",
+        service: "googlev2",
+        q: "q=ronaldo",
+        description: "Search with google v2"
       },
       {
         title: "gimage",
@@ -578,6 +589,12 @@ break`,
         service: "appstore",
         q: "q=minecraft",
         description: "Search with appstore"
+      },
+      {
+        title: "apkpure",
+        service: "apkpure",
+        q: "q=minecraft",
+        description: "Search with apkpure"
       },
       {
         title: "ytsearch",
@@ -621,7 +638,19 @@ break`,
         q: "q=sofia",
         description: "Search with lirik"
       },
-        ]
+      {
+        title: "sfilesrc",
+        service: "sfilesrc",
+        q: "q=minecraft",
+        description: "Search with sfilesrc"
+      },
+      {
+        title: "gsmarena",
+        service: "gsmarena",
+        q: "q=infinix",
+        description: "Search with gsmarena"
+      },
+    ],
       },
       "Tools": {
         icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
@@ -661,36 +690,54 @@ break`,
         q: "url=https://pomf2.lain.la/f/c4njx2we.jpg",
         description: "Screenshot website target"
       },
-        ],
+      {
+        title: "iplocation v1",
+        service: "cekipv1",
+        q: "ip=8.8.8.8",
+        description: "Check your ip location v1"
+      },
+      {
+        title: "iplocation v2",
+        service: "cekipv2",
+        q: "ip=8.8.8.8",
+        description: "Check your ip location v2"
+      },
+      {
+        title: "iplocation full",
+        service: "cekipfull",
+        q: "ip=8.8.8.8",
+        description: "Check your ip location full"
+      },
+    ],
       },
       "Converter": {
         icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
         apis: [{
-        title: "tobase64",
+        title: "to base64",
         service: "tobase64",
         q: "q=hai",
         description: "Convert utf8 to base64"
       },
       {
-        title: "toutf8",
+        title: "to utf8",
         service: "toutf8",
         q: "q=aGFp",
         description: "Convert base64 to utf8"
       },
       {
-        title: "tohex",
+        title: "to hex",
         service: "tohex",
         q: "q=hai",
         description: "Convert text to hex"
       },
       {
-        title: "togithub-raw",
+        title: "to github-raw",
         service: "ghraw",
         q: "url=https://github.com/ViooWA/Web/blob/main/vercel.json",
         description: "Convert to github raw url"
       },
       {
-        title: "togithub-ori",
+        title: "to github-ori",
         service: "ghori",
         q: "url=https://raw.githubusercontent.com/ViooWA/Web/main/vercel.json",
         description: "Convert to github main url"
@@ -698,10 +745,28 @@ break`,
       {
         title: "audio2text",
         service: "audio2txt",
-        q: "url=https://pomf2.lain.la/f/21axy7kx.mp3",
+        q: "url=https://files.catbox.moe/xa34uk.mp3",
         description: "Voice to text"
       },
-        ],
+      {
+        title: "to vurl",
+        service: "tovurl",
+        q: "url=https://pomf2.lain.la/f/21axy7kx.mp3",
+        description: "Convert any url to vurl"
+      },
+      {
+        title: "to isgd",
+        service: "toisgd",
+        q: "url=https://pomf2.lain.la/f/21axy7kx.mp3",
+        description: "Convert any url to isgd"
+      },
+      {
+        title: "to bitly",
+        service: "tobitly",
+        q: "url=https://pomf2.lain.la/f/21axy7kx.mp3",
+        description: "Convert any url to bitly"
+      },
+    ],
       },
       "Downloader": {
         icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
@@ -710,6 +775,24 @@ break`,
         service: "ytdl",
         q: "url=https://youtu.be/3JSJ6h7LKb0",
         description: "Youtube downloader"
+      },
+      {
+        title: "youtubev2",
+        service: "ytdlv2",
+        q: "url=https://youtu.be/3JSJ6h7LKb0",
+        description: "Youtubev2 downloader"
+      },
+      {
+        title: "ytmp4",
+        service: "ytmp4",
+        q: "url=https://youtu.be/3JSJ6h7LKb0",
+        description: "Youtube mp4 downloader"
+      },
+      {
+        title: "ytmp3",
+        service: "ytmp3",
+        q: "url=https://youtu.be/3JSJ6h7LKb0",
+        description: "Youtube mp3 downloader"
       },
       {
         title: "facebook",
@@ -754,9 +837,33 @@ break`,
         description: "Videy downloader"
       },
       {
+        title: "twitter",
+        service: "twitter",
+        q: "url=https://twitter.com/Eminem/status/943590594491772928",
+        description: "Twitter downloader"
+      },
+      {
+        title: "terabox",
+        service: "terabox",
+        q: "url=https://terabox.com/s/1A6XAXNBdHuLneJ51dNNy0g",
+        description: "Terabox downloader"
+      },
+      {
+        title: "threads",
+        service: "threads",
+        q: "url=https://www.threads.net/@melalibaliofficial/post/DECt01XSuyk?xmt=AQGznZWwI8lwsOmnsjwiaOhaoMgKAhwZChNQyLcdV-MVbQ",
+        description: "Threads downloader"
+      },
+      {
+        title: "capcut",
+        service: "capcut",
+        q: "url=https://www.capcut.com/t/Zs8Sw9wsE/%20aesthetic",
+        description: "Capcut downloader"
+      },
+      {
         title: "mediafire",
         service: "mfdl",
-        q: "url=https://www.mediafire.com/folder/4zhvcue3l75xa/Delirius+Test",
+        q: "url=https://www.mediafire.com/file/5nt8ybeyd3jhnhg/𝐀𝐠𝐥𝐞𝐫+𝐅𝐨𝐫𝐠𝐞𝐫+𝐯𝟏𝟒.𝟐+@AndraZyy.zip/file",
         description: "Mediafire downloader"
       },
       {
@@ -777,8 +884,13 @@ break`,
         q: "url=https://pastebin.com/Geq38sT1",
         description: "Get data url from pastebin"
       },
-          
-        ],
+      {
+        title: "sfiledl",
+        service: "sfiledl",
+        q: "url=https://sfile.mobi/4MJIjvGqTmi",
+        description: "Sfile downloader"
+      },
+    ],
       },
       "Maker": {
         icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
@@ -818,7 +930,135 @@ break`,
         q: "url=https://pomf2.lain.la/f/c4njx2we.jpg",
         description: "Facepalm image"
       },
-        ]
+    ],
+      }
+      "Stalker": {
+        icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
+        apis: [{
+        title: "github userv1",
+        service: "github-userv1",
+        q: "username=ViooWA",
+        description: "Github user stalk v1"
+      },
+      {
+        title: "github userv2",
+        service: "github-userv2",
+        q: "username=ViooWA",
+        description: "Github user stalk v2"
+      },
+      {
+        title: "npm stalk",
+        service: "npm-stalk",
+        q: "pkgname=axios",
+        description: "Npm stalk with package name"
+      },
+      {
+        title: "tiktok stalk",
+        service: "tt-stalk",
+        q: "username=djayyz_1",
+        description: "Tiktok stalk with username"
+      },
+      {
+        title: "youtube stalk",
+        service: "yt-stalk",
+        q: "username=SanjayaAds",
+        description: "Youtube stalk with username"
+      },
+      {
+        title: "instagram stalk",
+        service: "ig-stalk",
+        q: "username=vioo.wa",
+        description: "Instagram stalk with username"
+      },
+      {
+        title: "ff stalk",
+        service: "ff-stalk",
+        q: "id=12345678",
+        description: "Freefire stalk with id"
+      },
+      {
+        title: "ml stalk",
+        service: "ml-stalk",
+        q: "id=109088431&zoneid=2558",
+        description: "Ml stalk with id and zoneid"
+      },
+    ],
+      }
+      "Ephoto": {
+        icon: `<svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>`,
+        apis: [{
+        title: "glitchtext",
+        service: "glitchtext",
+        q: "q=mbappe",
+        description: "Generate image with glitch text"
+      },
+      {
+        title: "writetext",
+        service: "writetext",
+        q: "q=mbappe",
+        description: "Generate image with write text"
+      },
+      {
+        title: "advancedglow",
+        service: "advancedglow",
+        q: "q=mbappe",
+        description: "Generate image with advanced glow"
+      },
+      {
+        title: "logomaker",
+        service: "logomaker",
+        q: "q=mbappe",
+        description: "Generate image with logo maker"
+      },
+      {
+        title: "pixelglitch",
+        service: "pixelglitch",
+        q: "q=mbappe",
+        description: "Generate image with pixel glitch"
+      },
+      {
+        title: "neonglitch",
+        service: "neonglitch",
+        q: "q=mbappe",
+        description: "Generate image with neong litch"
+      },
+      {
+        title: "flagtext",
+        service: "flagtext",
+        q: "q=mbappe",
+        description: "Generate image with flag text"
+      },
+      {
+        title: "flag3dtext",
+        service: "flag3dtext",
+        q: "q=mbappe",
+        description: "Generate image with flag3d text"
+      },
+      {
+        title: "deletingtext",
+        service: "deletingtext",
+        q: "q=mbappe",
+        description: "Generate image with deleting text"
+      },
+      {
+        title: "sandsummer",
+        service: "sandsummer",
+        q: "q=mbappe",
+        description: "Generate image with sand summer"
+      },
+      {
+        title: "makingneon",
+        service: "makingneon",
+        q: "q=mbappe",
+        description: "Generate image with making neon"
+      },
+      {
+        title: "royaltext",
+        service: "royaltext",
+        q: "q=mbappe",
+        description: "Generate image with royal text"
+      },
+    ],
       }
     };
     
