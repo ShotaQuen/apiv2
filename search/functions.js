@@ -1,6 +1,7 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
 const FormData = require('form-data')
+const ytSearch = require('yt-search')
 
 async function ChatGPT(question, model) {
 const validModels = ["openai", "llama", "mistral", "mistral-large"];
@@ -155,31 +156,118 @@ const answer = chunks.map(chunk => chunk.content).join('')
 return answer
 }
 
-async function flux(prompt, model = 1, size = 1, style = 1, color = 1, lighting = 1) {
-const models = ["flux_1_schnell", "flux_1_dev", "sana_1_6b"];
-const sizes = ["1_1", "1_1_HD", "1_2", "2_1", "2_3", "4_5", "9_16", "3_2", "4_3", "16_9"];
-const styles = ["no_style", "anime", "digital", "fantasy", "neon_punk", "dark", "low_poly", "line_art", "pixel_art", "comic", "analog_film", "surreal"];
-const colors = ["no_color", "cool", "muted", "vibrant", "pastel", "bw"];
-const lightings = ["no_lighting", "lighting", "dramatic", "volumetric", "studio", "sunlight", "low_light", "golden_hour"];
-const errors = [];
-const formData = new FormData();
-formData.append('prompt', prompt);
-formData.append('model', models[model - 1]);
-formData.append('size', sizes[size - 1]);
-formData.append('style', styles[style - 1]);
-formData.append('color', colors[color - 1]);
-formData.append('lighting', lightings[lighting - 1]);
-const response = await axios.post('https://api.freeflux.ai/v1/images/generate', formData, {
+async function cbaby(urlBapak, urlEmak, gender = 'girl') {
+const _fetch = async (urls) => {
+const response = await axios.get(urls, { responseType: 'arraybuffer' })
+return `data:image/jpeg;base64,${Buffer.from(response.data).toString('base64')}`
+}
+const heatod = {
+'content-type': 'application/json',
+'origin': 'https://ai-baby-generator.net',
+'referer': 'https://ai-baby-generator.net/in',
+'user-agent': 'Postify/1.0.0',
+}
+const fotobapak = await _fetch(urlBapak)
+const fotoemak = await _fetch(urlEmak)
+const gdata = {
+"0": {
+"json": {
+"fatherImage": fotobapak,
+"motherImage": fotoemak,
+"gender": gender,
+}, },
+}
+const res2 = await axios.post('https://ai-baby-generator.net/api/ai.generateImage?batch=1', gdata, { headers: heatod })
+const _id = res2.data[0].result.data.json.taskId
+const _url = 'https://ai-baby-generator.net/api/ai.getTask?batch=1'
+let result
+do {
+await new Promise((resolve) => setTimeout(resolve, 5000))
+const _data = {
+"0": {
+"json": {
+"taskId": _id,
+}, },
+}
+const taskResponse = await axios.post(_url, _data, { headers: heatod })
+result = taskResponse.data[0].result.data.json
+} while (result.status !== 'SUCCEED')
+return result.imageUrl
+}
+
+async function text2img(prompt) {
+const requestData = JSON.stringify({ "prompt": prompt })
+const requestConfig = {
+method: 'POST',
+url: 'https://imgsys.org/api/initiate',
 headers: {
-'accept': 'application/json, text/plain, */*',
-'content-type': 'multipart/form-data',
-'origin': 'https://freeflux.ai',
-'priority': 'u=1, i',
-'referer': 'https://freeflux.ai/',
-'user-agent': 'Postify/1.0.0'
-}});
-const { id, status, result, processingTime, width, height, nsfw, seed } = response.data;
-return { id, status, result, processingTime, width, height, nsfw, seed }
+'User-Agent': 'Mozilla/5.0 (Android 10; Mobile; rv:131.0) Gecko/131.0 Firefox/131.0',
+'Content-Type': 'application/json',
+'accept-language': 'id-ID',
+'referer': 'https://imgsys.org/',
+'origin': 'https://imgsys.org',
+'sec-fetch-dest': 'empty',
+'sec-fetch-mode': 'cors',
+'sec-fetch-site': 'same-origin',
+'priority': 'u=0',
+'te': 'trailers'
+},
+data: requestData
+}
+try {
+const initiateResponse = await axios.request(requestConfig)
+const { requestId } = initiateResponse.data
+let imageResponse
+do {
+imageResponse = await axios.get(`https://imgsys.org/api/get?requestId=${requestId}`)
+if (imageResponse.data.message) {
+await new Promise(resolve => setTimeout(resolve, 1000))
+}
+} while (imageResponse.data.message)
+return imageResponse.data
+} catch (e) {
+console.error('Error:', e)
+throw e
+}}
+
+async function google(query) {
+const encodedQuery = encodeURIComponent(query)
+const url = `https://www.google.com/search?q=${encodedQuery}`
+const { data } = await axios.get(url, {
+headers: {
+'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}})
+const $ = cheerio.load(data)
+const results = []
+$('div.tF2Cxc').each((index, element) => {
+const title = $(element).find('h3').text()
+const link = $(element).find('a').attr('href')
+const snippet = $(element).find('.VwiC3b').text()
+if (title && link) {
+results.push({ title, link, snippet })
+}})
+return results
+}
+
+async function apkpure(text) {
+let url = `https://apkpure.net/id/search?q=${text}`;
+let { data } = await axios.get(url);
+let $ = cheerio.load(data);
+let results = [];
+$('a.apk-item').each((_, el) => {
+let title = $(el).find('div.title').text().trim();
+let dev = $(el).find('div.dev').text().trim();
+let rating = $(el).find('span.stars').text().trim();
+let link = 'https://apkpure.net' + $(el).attr('href');
+if (title && dev && rating && link) {
+results.push({
+title,
+developer: dev,
+rating,
+link
+})}
+});
+return results;
 }
 
 async function spotifys(query) {
@@ -194,6 +282,16 @@ image: ft.image_url
 }));
 return results
 }
+
+async function spotifydl(url) {
+const hai = await axios.get(`https://api.fabdl.com/spotify/get?url=${encodeURIComponent(url)}`)
+const hao = await axios.get(`https://api.fabdl.com/spotify/mp3-convert-task/${hai.data.result.gid}/${hai.data.result.id}`)
+return {
+title: hai.data.result.name,
+download: `https://api.fabdl.com${hao.data.result.download_url}`,
+image: hai.data.result.image,
+duration_ms: hai.data.result.duration_ms
+}}
 
 async function bingS(query) {
 const response = await axios.get(`https://www.bing.com/search?q=${query}`);
@@ -252,6 +350,27 @@ link: `https://www.bing.com${link}`
 return videoDetails;
 }
 
+async function pinterest(query) {
+const options = {
+query,
+scope: "pins",
+redux_normalize_feed: true,
+page_size: 50
+}
+const response = await axios.get(`https://www.pinterest.com/resource/BaseSearchResource/get/?source_url=/search/pins/?q=${encodeURIComponent(query)}&data=${encodeURIComponent(JSON.stringify({ options, context: {}
+}))}&_=${Date.now()}`, { headers: {
+'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+'X-Requested-With': 'XMLHttpRequest' }})
+const data = response.data.resource_response?.data?.results || []
+const results = data.map(item => ({
+src: item.images.orig?.url || item.images['564x']?.url || '',
+title: item.rich_metadata?.title || item.grid_title || '',
+link: `https://www.pinterest.com/pin/${item.id}`,
+source: item.rich_metadata?.site_name || item.domain || ''
+})).filter(item => item.src)
+return results
+}
+
 async function srcLyrics(song) {
 const { data } = await axios.get(`https://www.lyrics.com/lyrics/${song}`);
 const $ = cheerio.load(data);
@@ -270,6 +389,52 @@ link: `https://www.lyrics.com${link}`
 };
 }).get();
 return result
+}
+
+async function sfilesrc(teks) {
+try {
+const response = await axios.get(`https://sfile-api.vercel.app/search/${encodeURIComponent(teks)}`)
+if (response.data) {
+const { data } = response.data.data
+return {
+files: data.map(file => ({
+icon: file.icon,
+size: file.size,
+title: file.title,
+id: 'https://sfile.mobi/'+file.id
+}))
+}}
+} catch (e) {
+console.error('Error: '+e)
+return null
+}}
+
+async function ytsearch(query) {
+try {
+const searchResults = await ytSearch(query);
+const videos = searchResults.videos.map(video => ({
+title: video.title,
+description: video.description,
+url: video.url,
+videoId: video.videoId,
+timestamp: video.timestamp,
+duration: video.duration,
+ago: video.ago,
+views: video.views,
+author: {
+name: video.author.name,
+url: video.author.url,
+verified: video.author.verified
+},
+image: video.image,
+thumbnail: video.thumbnail
+}));
+
+return videos;
+} catch (error) {
+console.error("Error during YouTube search:", error);
+return [];
+}
 }
 
 async function ytdl(link, qualityIndex, typeIndex) {
@@ -319,6 +484,47 @@ quality,
 type
 }}
 
+const formatAudio = ['mp3', 'm4a', 'webm', 'acc', 'flac', 'opus', 'ogg', 'wav'];
+const formatVideo = ['360', '480', '720', '1080', '1440', '4k'];
+
+async function cekProgress(id) {
+const configProgress = {
+method: 'GET',
+url: `https://p.oceansaver.in/ajax/progress.php?id=${id}`,
+headers: {
+'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}}
+while (true) {
+const response = await axios.request(configProgress);
+if (response.data && response.data.success && response.data.progress === 1000) {
+return response.data.download_url;
+}
+await new Promise(resolve => setTimeout(resolve, 5000));
+}}
+
+async function ytdlv2(url, format) {
+if (!formatAudio.includes(format) && !formatVideo.includes(format)) {
+throw new Error('Format nya gak valid bro.');
+}
+const configDownload = {
+method: 'GET',
+url: `https://p.oceansaver.in/ajax/download.php?format=${format}&url=${encodeURIComponent(url)}&api=dfcb6d76f2f6a9894gjkege8a4ab232222`, headers: {
+'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}};
+const response = await axios.request(configDownload);
+if (response.data && response.data.success) {
+const { id, title, info } = response.data;
+const { image } = info;
+const downloadUrl = await cekProgress(id);
+return {
+id: id,
+image: image,
+title: title,
+downloadUrl: downloadUrl
+}} else {
+throw new Error('Failed to fetch video details.');
+}}
+
 async function igfbdl(link) {
 const { data } = await axios.post(
 'https://yt1s.io/api/ajaxSearch',
@@ -331,43 +537,6 @@ return $('a.abutton.is-success.is-fullwidth.btn-premium').map((_, el) => ({
 title: $(el).attr('title'),
 url: $(el).attr('href'),
 })).get();
-}
-
-async function igdl(url) {
-const data = `url=${encodeURIComponent(url)}&v=3&lang=en`
-const config = {
-method: 'POST',
-url: 'https://api.downloadgram.org/media',
-headers: {
-'User-Agent': 'Mozilla/5.0 (Android 10; Mobile; rv:131.0) Gecko/131.0 Firefox/131.0',
-'Content-Type': 'application/x-www-form-urlencoded',
-'accept-language': 'id-ID',
-'referer': 'https://downloadgram.org/',
-'origin': 'https://downloadgram.org',
-'sec-fetch-dest': 'empty',
-'sec-fetch-mode': 'cors',
-'sec-fetch-site': 'same-site',
-'priority': 'u=0',
-'te': 'trailers',
-},
-data: data,
-};
-const response = await axios.request(config);
-const $ = cheerio.load(response.data);
-let mediaInfo = {};
-if ($('video').length) {
-mediaInfo.videoUrl = $('video source').attr('src');
-mediaInfo.downloadUrl = $('a[download]').attr('href');
-mediaInfo.posterUrl = $('video').attr('poster');
-} else if ($('img').length) {
-mediaInfo.imageUrl = $('img').attr('src');
-mediaInfo.downloadUrl = $('a[download]').attr('href');
-}
-for (let key in mediaInfo) {
-if (mediaInfo.hasOwnProperty(key)) {
-mediaInfo[key] = mediaInfo[key].replace(/\\\\"/g, '').replace(/\\"/g, '');
-}}
-return mediaInfo;
 }
 
 async function tiktokdl(link, type = 'video') {
@@ -467,6 +636,59 @@ coverUrl: result.dlink.cover
 }}
 }
 
+async function terabox(url) {
+const getdm = await axios.get(`https://ins.neastooid.xyz/api/Tools/getins?url=https://www.terabox.app/wap/share/filelist?surl=${encodeURIComponent(url)}`)
+const { jsToken, bdstoken } = getdm.data
+const getrsd = await axios.get(`https://ins.neastooid.xyz/api/downloader/Metaterdltes?url=${encodeURIComponent(url)}`)
+const { shareId, userKey, sign, timestamp, files } = getrsd.data.metadata
+const traboxdlxins = await axios.post('https://ins.neastooid.xyz/api/downloader/terade', {
+shareId,
+userKey,
+sign,
+timestamp,
+jsToken,
+bdstoken,
+files
+})
+return traboxdlxins.data
+}
+
+async function threads(link) {
+const { data } = await axios.get('https://threads.snapsave.app/api/action', {
+params: { url: link },
+headers: {
+'accept': 'application/json, text/plain, */*',
+'referer': 'https://threads.snapsave.app/',
+'user-agent': 'Postify/1.0.0'
+},
+timeout: 10000
+})
+const type = (type) => ({
+GraphImage: 'Photo',
+GraphVideo: 'Video',
+GraphSidecar: 'Gallery'
+}[type] || type);
+return {
+postInfo: {
+id: data.postinfo.id,
+username: data.postinfo.username,
+avatarUrl: data.postinfo.avatar_url,
+mediaTitle: data.postinfo.media_title,
+type: type(data.postinfo.__type)
+},
+media: data.items.map(item => ({
+type: type(item.__type),
+id: item.id,
+url: item.url,
+width: item.width,
+height: item.height,
+...(item.__type === 'GraphVideo' && {
+thumbnailUrl: item.display_url,
+videoUrl: item.video_url,
+duration: item.video_duration
+})}))
+}}
+
 async function getLyrics(url) {
 const { data } = await axios.get(url);
 const $ = cheerio.load(data);
@@ -486,14 +708,31 @@ return result;
 }
 
 async function pastebin(url) {
-let rawUrl = url;
+let rawUrl
 if (!url.includes('/raw/')) {
-const pasteId = url.split('/').pop();
-rawUrl = `https://pastebin.com/raw/${pasteId}`;
+const pasteId = url.split('/').pop()
+rawUrl = `https://pastebin.com/raw/${pasteId}`
+} else {
+rawUrl = url
 }
-const response = await axios.get(rawUrl);
-return response.data;
+const response = await axios.get(rawUrl)
+return response.data
 }
+
+async function sfiledl(url) {
+try {
+const id = url.split('/').pop()
+const response = await axios.get(`https://sfile-api.vercel.app/download/${id}`)
+if (response.data) {
+const { url, date, downloaded } = response.data.data
+return {
+dl: url,
+date: date,
+dcount: downloaded
+}}} catch (e) {
+console.error('Error: '+e)
+return null
+}}
 
 async function remini(imageUrl, method) {
 const Methods = ["enhance", "recolor", "dehaze"];
@@ -564,6 +803,41 @@ const response = await axios.post(url, data.toString(), { headers })
 return `data:image/png;base64,${response.data}`
 }
 
+async function ephoto(command, texk) {
+const links = {
+glitchtext: 'https://en.ephoto360.com/create-digital-glitch-text-effects-online-767.html',
+writetext: 'https://en.ephoto360.com/write-text-on-wet-glass-online-589.html',
+advancedglow: 'https://en.ephoto360.com/advanced-glow-effects-74.html',
+logomaker: 'https://en.ephoto360.com/free-bear-logo-maker-online-673.html',
+pixelglitch: 'https://en.ephoto360.com/create-pixel-glitch-text-effect-online-769.html',
+neonglitch: 'https://en.ephoto360.com/create-impressive-neon-glitch-text-effects-online-768.html',
+flagtext: 'https://en.ephoto360.com/nigeria-3d-flag-text-effect-online-free-753.html',
+flag3dtext: 'https://en.ephoto360.com/free-online-american-flag-3d-text-effect-generator-725.html',
+deletingtext: 'https://en.ephoto360.com/create-eraser-deleting-text-effect-online-717.html',
+sandsummer: 'https://en.ephoto360.com/write-in-sand-summer-beach-online-576.html',
+makingneon: 'https://en.ephoto360.com/making-neon-light-text-effect-with-galaxy-style-521.html',
+royaltext: 'https://en.ephoto360.com/royal-text-effect-online-free-471.html'
+};
+const url = links[command];
+let form = new FormData();
+let gT = await axios.get(url, { headers: { "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36" }});
+let $ = cheerio.load(gT.data);
+let token = $("input[name=token]").val();
+let build_server = $("input[name=build_server]").val();
+let build_server_id = $("input[name=build_server_id]").val();
+form.append("text[]", texk);
+form.append("token", token);
+form.append("build_server", build_server);
+form.append("build_server_id", build_server_id);
+let res = await axios.post(url, form, { headers: { Accept: "*/*", "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36", cookie: gT.headers["set-cookie"]?.join("; "), ...form.getHeaders()}})
+let $$ = cheerio.load(res.data);
+let json = JSON.parse($$("input[name=form_value_input]").val());
+json["text[]"] = json.text;
+delete json.text
+let { data } = await axios.post("https://en.ephoto360.com/effect/create-image", new URLSearchParams(json), { headers: { "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36", cookie: gT.headers["set-cookie"].join("; ")}});
+return build_server + data.image
+}
+
 async function transcribe(url) {
 const formData = new FormData()
 const response = await axios.get(url, { responseType: 'stream' })
@@ -592,4 +866,66 @@ config
 return respons.data
 }
 
-module.exports = { ChatGPT, feloask, meiliai, islamai, veniceai, flux, spotifys, bingS, bingI, bingV, srcLyrics, ytdl, igfbdl, igdl, tiktokdl, getLyrics, pastebin, remini, reminiv2, dehaze, bratv2, transcribe }
+async function shortUrlv1(url) {
+const response = await axios.get('https://v.gd/create.php', {
+params: {
+format: 'simple',
+url: url
+}})
+return response.data
+}
+
+async function shortUrlv2(url) {
+const response = await axios.get('https://is.gd/create.php', {
+params: {
+format: 'simple',
+url: url
+}})
+return response.data
+}
+
+async function shortUrlv3(url) {
+const response = await axios.post('https://api-ssl.bitly.com/v4/shorten', 
+{ "long_url": url }, { headers: { 'Authorization': `Bearer aa06f5a7a15bcedccf174f63d5e4fb88675bbfe5`,
+'Content-Type': 'application/json' }})
+return response.data.link
+}
+
+async function cekip(query) {
+const results = []
+
+try {
+const response = await axios.get(`https://ipinfo.io/${query}/json`);
+results.push({ name: 'ipinfo.io', data: response.data });
+} catch (error) {
+results.push({ name: 'ipinfo.io', error: error.message });
+}
+
+try {
+const response = await axios.get(`http://ip-api.com/json/${query}`);
+results.push({ name: 'ip-api.com', data: response.data });
+} catch (error) {
+results.push({ name: 'ip-api.com', error: error.message });
+}
+
+try {
+const response = await axios.get(`https://ipwhois.app/json/${query}`);
+results.push({ name: 'ipwhois.app', data: response.data });
+} catch (error) {
+results.push({ name: 'ipwhois.app', error: error.message });
+}
+
+try {
+const response = await axios.get(`https://ipapi.co/${query}/json/`);
+if (response.data.error) {
+throw new Error(response.data.reason || 'IP tidak valid');
+}
+results.push({ name: 'ipapi.co', data: response.data });
+} catch (error) {
+results.push({ name: 'ipapi.co', error: error.message });
+}
+
+return results;
+}
+
+module.exports = { ChatGPT, feloask, meiliai, islamai, veniceai, cbaby, text2img, google, apkpure, spotifys, spotifydl, bingS, bingI, bingV, pinterest, srcLyrics, sfilesrc, ytsearch, ytdl, ytdlv2, igfbdl, tiktokdl, terabox, threads, getLyrics, pastebin, sfiledl, remini, reminiv2, dehaze, bratv2, ephoto, transcribe, shortUrlv1, shortUrlv2, shortUrlv3, cekip }
