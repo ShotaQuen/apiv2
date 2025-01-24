@@ -703,10 +703,10 @@ app.get("/api/ytmp4", async (req, res) => {
     return res.status(400).json({ status: false, error: "URL is required" })
   }
   try {
-    const response = await axios.get(`https://axeel.my.id/api/download/video?url=${url}`)
+    const response = await axios.get(`https://api.vreden.web.id/api/ytmp4?url=${url}`)
     res.status(200).json({
     status: true,
-    data: response.data,
+    result: response.result,
     })
   } catch (error) {
     res.status(500).json({ status: false, error: error.message })
